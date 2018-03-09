@@ -131,18 +131,18 @@
             Question is Required
         </p>
         <label>Answer:</label>
-					<textarea required 
-							style="height:100px;font-size:12pt;" 
-							name="answer" 
-							type="textbox" 
-							class="form-control" 
-							placeholder="Enter Your Answer" 
-							ng-model="$ctrl.newQuestion.answer"/>
-							<p class="error" ng-show="($ctrl.$dirty 
-								|| $ctrl.createfaq.answer.$touched) 
-								&& $ctrl.createfaq.answer.$invalid">Answer is Required
-							</p>
-					<br>
+            <textarea required 
+                style="height:100px;font-size:12pt;" 
+                name="answer" 
+                type="textbox" 
+                class="form-control" 
+                placeholder="Enter Your Answer" 
+                ng-model="$ctrl.newQuestion.answer"/>
+                <p class="error" ng-show="($ctrl.$dirty 
+                        || $ctrl.createfaq.answer.$touched) 
+                        && $ctrl.createfaq.answer.$invalid">Answer is Required
+                </p>
+            <br>
         <label>Display Order:</label>
         <select ng-model='$ctrl.newQuestion.displayorder'>
           <option value="1">1</option>
