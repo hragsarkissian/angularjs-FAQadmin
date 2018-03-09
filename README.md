@@ -107,7 +107,7 @@
   <div class="modal" aria-hidden="false" style="display: block;" ng-show="$ctrl.dialog">  
     <div class="modal-dialog">    
       <div class="modal-content">   
-         <b>You still have questions in this category. Please note that you have to delete all the questions in the category before               deleting the entire FAQ category</b>   
+         <b>You still have questions in this category. Please note that you have to delete all the questions in the category before deleting the entire FAQ category</b>   
           <button type="button" class="btn btn-primary" ng-click="$ctrl.dialog=false">Ok</button>     
       </div>
     </div>
