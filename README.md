@@ -80,12 +80,12 @@
               class="form-control" 
               placeholder="Enter FAQ Title" 
               ng-model="$ctrl.newCategory.name"/>
-							<p class="error" 
-									ng-show="($ctrl.$dirty 
-									|| $ctrl.createFaqCategory.question.$touched) 
-									&& $ctrl.createFaqCategory.question.$invalid">
-									Category Title is Required
-							</p>
+      <p class="error" 
+          ng-show="($ctrl.$dirty 
+          || $ctrl.createFaqCategory.question.$touched) 
+          && $ctrl.createFaqCategory.question.$invalid">
+          Category Title is Required
+      </p>
       <label>Description:</label>
           <textarea required 
               style="height:100px;font-size:12pt;" 
@@ -94,11 +94,12 @@
               class="form-control" 
               placeholder="Describe FAQ Category" 
               ng-model="$ctrl.newCategory.description"/>
-      				<p class="error" ng-show="($ctrl.$dirty 
-								|| $ctrl.createFaqCategory.description.$touched) 
-								&& $ctrl.createFaqCategory.description.$invalid">Description is Required
-      				</p>
-      			<br>
+      <p class="error" 
+         ng-show="($ctrl.$dirty 
+         || $ctrl.createFaqCategory.description.$touched) 
+         && $ctrl.createFaqCategory.description.$invalid">Description is Required
+      </p>
+      <br>
         <button class="btn btn-primary" ng-click="$ctrl.createNewFaq()">Create FAQ</button>
   </form>
 </div>
@@ -106,29 +107,29 @@
   <div class="modal" aria-hidden="false" style="display: block;" ng-show="$ctrl.dialog">  
     <div class="modal-dialog">    
       <div class="modal-content">   
-         <b>You still have questions in this category. Please note that you have to delete all the questions in the category before deleting the entire FAQ category</b>   
-              <button type="button" class="btn btn-primary" ng-click="$ctrl.dialog=false">Ok</button>     
+         <b>You still have questions in this category. Please note that you have to delete all the questions in the category before               deleting the entire FAQ category</b>   
+          <button type="button" class="btn btn-primary" ng-click="$ctrl.dialog=false">Ok</button>     
       </div>
     </div>
   </div>
-
+  
   <div class="container" ng-show="$ctrl.createFaq">
 	<h1>Create New Question</h1>
     <form name="$ctrl.createfaq" novalidate>
         <label>Question:</label>
-					<textarea required
-							style="height:100px;font-size:12pt;" 
-							name="question" 
-							type="textbox" 
-							class="form-control" 
-							placeholder="Type Your Question" 
-							ng-model="$ctrl.newQuestion.question" />
-					<p class="error" 
-							ng-show="($ctrl.$dirty 
-									|| $ctrl.createfaq.question.$touched) 
-									&& $ctrl.createfaq.question.$invalid">
-									Question is Required
-					</p>
+            <textarea required
+                style="height:100px;font-size:12pt;" 
+                name="question" 
+                type="textbox" 
+                class="form-control" 
+                placeholder="Type Your Question" 
+                ng-model="$ctrl.newQuestion.question" />
+        <p class="error" 
+          ng-show="($ctrl.$dirty 
+            || $ctrl.createfaq.question.$touched) 
+            && $ctrl.createfaq.question.$invalid">
+            Question is Required
+        </p>
         <label>Answer:</label>
 					<textarea required 
 							style="height:100px;font-size:12pt;" 
