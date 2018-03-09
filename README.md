@@ -61,8 +61,8 @@
             ng-model="$ctrl.edit.answer"/>
             <p class="error" 
                 ng-show="($ctrl.$dirty 
-                || $ctrl.editFaq.answer.$touched) 
-                && $ctrl.editFaq.answer.$invalid">Answer is Required
+								|| $ctrl.editFaq.answer.$touched) 
+								&& $ctrl.editFaq.answer.$invalid">Answer is Required
             </p>
         <br>
         <button class="btn btn-primary" ng-click="$ctrl.updateQuestion()">Update</button>
@@ -138,9 +138,10 @@
                 class="form-control" 
                 placeholder="Enter Your Answer" 
                 ng-model="$ctrl.newQuestion.answer"/>
-                <p class="error" ng-show="($ctrl.$dirty 
-                        || $ctrl.createfaq.answer.$touched) 
-                        && $ctrl.createfaq.answer.$invalid">Answer is Required
+                <p class="error" 
+									 ng-show="($ctrl.$dirty 
+									 || $ctrl.createfaq.answer.$touched) 
+									 && $ctrl.createfaq.answer.$invalid">Answer is Required
                 </p>
             <br>
         <label>Display Order:</label>
