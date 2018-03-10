@@ -1,159 +1,172 @@
 # angularjs-FAQadmin
+The following controller represents the functionality of inserting, updating, receiving,and deleting data from the database using AngularJs.
 
-<div class="container">
-  <div ng-show="$ctrl.faqheader">
-    <h2><b>FAQ Admin Page</b></h2>
-    <button class="btn btn-success" ng-click="$ctrl.createCategory()">Add New Category</button>
-  </div>
-  
-  <table class="table faqTable" ng-repeat='category in $ctrl.faqCategory' ng-show="$ctrl.isSuccessfull">
-    <div>
-      <thead>
-        <tr>
-          <th><h3><b>FAQ Category: {{category.name}}</b></h3></th>
-          <th><button class="btn btn-Info" ng-click="$ctrl.openQuestionForm(category.id)">Add Question To {{category.name}}</button</th>
-          <th><button class="btn btn-Info" ng-click="$ctrl.deleteCategory(category.id)">Delete {{category.name}} Category</button></th>
-        </tr>
-      </thead>
-        <tr>
-          <th colspan="2">Question</th>
-          <th colspan="2">Answer</th>         
-          <th style="text-align:center">Edit / Delete</th>
-        </tr>
-      <tbody>
-        <tr ng-repeat='faq in $ctrl.faqitem' ng-if='faq.faqCategoryId == category.id'>
-          <td colspan="2">{{faq.question}}</td>
-          <td colspan="2">{{faq.answer}}</td>
-          <td align="center">
-            <button class="btn btn-primary" ng-click="$ctrl.editQuestion(faq.id)">Edit</button>        
-            <button class="btn btn-danger" ng-click="$ctrl.deleteQuestion(faq.id)">Delete</button>
-          </td>
-        </tr>
-      </tbody>
-    </div>
-  </table>
-</div>
+(function() {
+    "use strict";
+    
+    angular
+        .module("adminApp.faq")
+        .component("faqDetail", {
+            templateUrl: "/app/admin/modules/faq/faqDetail.html",
+            controller: "faqController"       
+        })
+})();
+(function() {
+    "use strict";
 
-<div class="container" ng-show="$ctrl.editfaq">
-  <h1>Edit Your FAQ</h1>
-  <form name="$ctrl.editFaq" novalidate>
-      <label>Question:</label>
-        <textarea required
-            style="height:100px;font-size:12pt;" 
-            name="question" 
-            type="textbox" 
-            class="form-control" 
-            placeholder="Type Your Question" 
-            ng-model="$ctrl.edit.question" />
-            <p class="error" 
-                ng-show="($ctrl.$dirty 
-                    || $ctrl.editFaq.question.$touched) 
-                    && $ctrl.editFaq.question.$invalid">
-                    Question is Required
-            </p>
-      <label>Answer:</label>
-        <textarea required 
-            style="height:100px;font-size:12pt;" 
-            name="answer" 
-            type="textbox" 
-            class="form-control" 
-            placeholder="Enter Your Answer" 
-            ng-model="$ctrl.edit.answer"/>
-            <p class="error" 
-                ng-show="($ctrl.$dirty 
-								|| $ctrl.editFaq.answer.$touched) 
-								&& $ctrl.editFaq.answer.$invalid">Answer is Required
-            </p>
-        <br>
-        <button class="btn btn-primary" ng-click="$ctrl.updateQuestion()">Update</button>
-  </form>
-</div>
+    angular
+        .module("adminApp.faq")
+        .controller("faqController", FaqController);
 
-<div class="container" ng-show="$ctrl.addfaqCategory">
-  <h1>Add New FAQ Category</h1>
-  <form name="$ctrl.createFaqCategory" novalidate>
-      <label>Category Title:</label>
-          <textarea required
-              style="height:100px;font-size:12pt;" 
-              name="name" 
-              type="textbox" 
-              class="form-control" 
-              placeholder="Enter FAQ Title" 
-              ng-model="$ctrl.newCategory.name"/>
-      <p class="error" 
-          ng-show="($ctrl.$dirty 
-          || $ctrl.createFaqCategory.question.$touched) 
-          && $ctrl.createFaqCategory.question.$invalid">
-          Category Title is Required
-      </p>
-      <label>Description:</label>
-          <textarea required 
-              style="height:100px;font-size:12pt;" 
-              name="description" 
-              type="textbox" 
-              class="form-control" 
-              placeholder="Describe FAQ Category" 
-              ng-model="$ctrl.newCategory.description"/>
-      <p class="error" 
-         ng-show="($ctrl.$dirty 
-         || $ctrl.createFaqCategory.description.$touched) 
-         && $ctrl.createFaqCategory.description.$invalid">Description is Required
-      </p>
-      <br>
-        <button class="btn btn-primary" ng-click="$ctrl.createNewFaq()">Create FAQ</button>
-  </form>
-</div>
+    FaqController.$inject = ["$scope", "$location", '$element', 'faqService'];
 
-  <div class="modal" aria-hidden="false" style="display: block;" ng-show="$ctrl.dialog">  
-    <div class="modal-dialog">    
-      <div class="modal-content">   
-         <b>You still have questions in this category. Please note that you have to delete all the questions in the category before deleting the entire FAQ category</b>   
-          <button type="button" class="btn btn-primary" ng-click="$ctrl.dialog=false">Ok</button>     
-      </div>
-    </div>
-  </div>
-  
-  <div class="container" ng-show="$ctrl.createFaq">
-	<h1>Create New Question</h1>
-    <form name="$ctrl.createfaq" novalidate>
-        <label>Question:</label>
-            <textarea required
-                style="height:100px;font-size:12pt;" 
-                name="question" 
-                type="textbox" 
-                class="form-control" 
-                placeholder="Type Your Question" 
-                ng-model="$ctrl.newQuestion.question" />
-        <p class="error" 
-          ng-show="($ctrl.$dirty 
-            || $ctrl.createfaq.question.$touched) 
-            && $ctrl.createfaq.question.$invalid">
-            Question is Required
-        </p>
-        <label>Answer:</label>
-            <textarea required 
-                style="height:100px;font-size:12pt;" 
-                name="answer" 
-                type="textbox" 
-                class="form-control" 
-                placeholder="Enter Your Answer" 
-                ng-model="$ctrl.newQuestion.answer"/>
-                <p class="error" 
-									 ng-show="($ctrl.$dirty 
-									 || $ctrl.createfaq.answer.$touched) 
-									 && $ctrl.createfaq.answer.$invalid">Answer is Required
-                </p>
-            <br>
-        <label>Display Order:</label>
-        <select ng-model='$ctrl.newQuestion.displayorder'>
-          <option value="1">1</option>
-          <option value="2">2</option>
-          <option value="3">3</option>
-          <option value="4">4</option>
-          <option value="5">5</option>
-        </select>
-        <br>
-        <br>
-        <button class="btn btn-primary" ng-click="$ctrl.createQuestion()">Create Question</button>
-    </form>
-  </div>
+    function FaqController($scope,$location,$element,FaqService) {
+        var vm = this;
+        // viewmodels for show and hide
+        vm.createFaq = false;
+        vm.addfaqCategory = false;
+        vm.dialog = false;
+        vm.editfaq = false;
+        vm.faqheader = true;
+        vm.isSuccessfull = true;
+        //viewmodels for two way binding
+        vm.newCategory = {};
+        vm.edit = {};
+        vm.newQuestion = {};
+        vm.$onInit = _onInit;
+        vm.$location = $location;
+        //view models for getcalls
+        vm.faqitem = [];
+        vm.faqCategory = [];
+        //viewmodel for faq getall category ajax call
+        vm.getfaqCategory = _getfaqCategory;
+        //viewmodel for getall faq ajax call
+        vm.getfaq = _getfaq;
+        //viewmodel for creating question ajax call
+        vm.createQuestion = _createQuestion;
+        //viewmodel for delete faq ajax call
+        vm.deleteQuestion = _deleteQuestion;
+        //viewmodel for opening edit faq form by doing getById ajax call
+        vm.editQuestion = _editQuestion;
+        vm.editQuestionSuccess = _editQuestionSuccess;
+        vm.editQuestionError = _editQuestionError;
+        //viewmodel for update faq ajax call
+        vm.updateQuestion = _updateQuestion;
+        //viewmodel for delete faq category ajax call
+        vm.deleteCategory = _deleteCategory;
+        //viewmodel for new faq category form
+        vm.createCategory = _createCategory;
+        //viewmodel for creating new faq category ajax call 
+        vm.createNewFaq = _createNewFaq;
+        //viewmodel for new question form
+        vm.openQuestionForm = _openQuestionForm;
+
+        function _onInit(){
+            console.log("Faq Controller Fired");
+            vm.getfaqCategory();
+            vm.getfaq();
+        }
+
+        function _getfaqCategory(){
+            return FaqService.getfaqCategory()
+                .then(function(data){
+                    vm.faqCategory = data.items;
+                        console.log(vm.faqCategory);
+            })         
+        }
+
+        function _getfaq(){
+            return FaqService.getfaq()
+                .then(function(data){
+                    vm.faqitem = data.items;
+                })         
+        }
+
+        function _deleteQuestion(id){
+            vm.id = id;
+            return FaqService.deleteQuestion(id)
+                .then(function(){
+                    var index = vm.faqitem.findIndex(x=>x.id === id);
+                    vm.faqitem.splice(index, 1);
+                })
+        }
+
+        function _editQuestion(id){
+            return FaqService.getByIdFaq(id)
+                .then(vm.editQuestionSuccess,vm.editQuestionError);        
+        }
+
+        function _editQuestionSuccess(data){
+            vm.edit = data.item;
+            vm.faqheader = false;
+            vm.isSuccessfull = false;
+            vm.editfaq = true;
+            vm.edit.id = data.item.id
+        }
+
+        function _editQuestionError(err){
+            return err;
+        }
+
+        function _updateQuestion() {
+            vm.id = vm.edit.id
+            return FaqService.updateQuestion(vm.id,vm.edit)
+                .then(function(data){
+                    var index = vm.faqitem.findIndex(x=>x.id === vm.id);
+                    vm.faqitem.splice(index, 1 , vm.edit);         
+                    vm.isSuccessfull = true;
+                    vm.editfaq = false;
+                    vm.faqheader = true;
+                })
+        }
+
+        function _deleteCategory(id){
+            return FaqService.deleteCategory(id)
+                .then(function(data){
+                    if(data.statusText === 'Bad Request'){
+                        vm.dialog = true;
+                    }else{
+                        var index = vm.faqCategory.findIndex(x=>x.id === id);
+                        vm.faqCategory.splice(index, 1);           
+                    }             
+                });
+        }
+
+        function _createCategory(){
+            vm.isSuccessfull = false;
+            vm.faqheader = false;
+            vm.addfaqCategory = true;
+        }
+
+        function _createNewFaq(){
+            console.log(vm.newCategory);
+            return FaqService.createNewFaq(vm.newCategory)
+                .then(function(data){
+                    vm.faqCategory.push(vm.newCategory);
+                    console.log(vm.faqCategory);
+                    vm.isSuccessfull = true, 
+                    vm.faqheader = true, 
+                    vm.addfaqCategory = false;           
+                })
+        }
+
+        function _openQuestionForm(id){
+            vm.isSuccessfull = false;
+            vm.faqheader = false;
+            vm.createFaq = true;
+            vm.newQuestion.faqCategoryId = id;
+        }
+
+        function _createQuestion(){
+            return FaqService.createQuestion(vm.newQuestion)
+                .then(function(data){
+                    vm.newQuestion.id = data.item;
+                    vm.faqitem.push(vm.newQuestion);
+                    console.log(vm.faqitem);
+                    vm.isSuccessfull = true;
+                    vm.faqheader = true;
+                    vm.createFaq = false;
+                })
+        }   
+    }
+})();
